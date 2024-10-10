@@ -41,7 +41,7 @@ namespace FitnessProgramManagementSystem
         {
             try
             {
-                string updateQuery = @"UPDATE FitnessPrograms SET Title=@title, Duration=@duration Price=@price WHERE FitnessProgramId=@id";
+                string updateQuery = @"UPDATE FitnessPrograms SET Title=@title, Duration=@duration, Price=@price WHERE FitnessProgramId=@id";
                 using (SqlConnection conn = new SqlConnection(fitnessDbConnectionString))
                 {
                     conn.Open();
@@ -136,6 +136,7 @@ namespace FitnessProgramManagementSystem
                     {
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
+                            Console.WriteLine("Program Lists: ");
                             while (reader.Read())
                             {
                                 int programId = reader.GetInt32(0);

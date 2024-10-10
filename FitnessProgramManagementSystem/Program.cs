@@ -15,6 +15,7 @@ namespace FitnessProgramManagementSystem
 
 
             FitnessProgramManager manager1 = new FitnessProgramManager();
+            FitnessProgramRepository repository = new FitnessProgramRepository();
             bool exit = false;
             SetConnection();
 
@@ -26,7 +27,8 @@ namespace FitnessProgramManagementSystem
                 Console.WriteLine(" 2. View All FitnessPrograms");
                 Console.WriteLine(" 3. Update a FitnessProgram");
                 Console.WriteLine(" 4. Delete a FitnessProgram");
-                Console.WriteLine(" 5. Exit");
+                Console.WriteLine(" 5. View a FitnessProgramByID");
+                Console.WriteLine(" 6. Exit");
                 Console.Write(" Choose an option:");
                 string option = Console.ReadLine();
 
@@ -34,24 +36,28 @@ namespace FitnessProgramManagementSystem
                 {
                     case "1":
                         Console.Clear();
-                        CreateFitnessProgram(manager1);
+                        CreateFitnessProgram(manager1, repository);
                         break;
 
                     case "2":
                         Console.Clear();
-                        manager1.ReadFitnessPrograms();
+                        ReadFitnessPrograms(repository);
                         break;
 
                     case "3":
                         Console.Clear();
-                        UpdateFitnessProgram(manager1);
+                        UpdateFitnessProgram(manager1, repository);
                         break;
 
                     case "4":
                         Console.Clear();
-                        DeleteFitnessProgram(manager1);
+                        DeleteFitnessProgram(manager1, repository);
                         break;
                     case "5":
+                        Console.Clear();
+                        ReadFitnessProgramById(repository);
+                        break;
+                    case "6":
                         Console.Clear();
                         exit = true;
                         break;
@@ -69,10 +75,10 @@ namespace FitnessProgramManagementSystem
 
         }
 
-        static void CreateFitnessProgram(FitnessProgramManager manager)
+        static void CreateFitnessProgram(FitnessProgramManager manager, FitnessProgramRepository repo)
         {
-            Console.WriteLine("Enter FitnessProgram ID:");
-            int id = int.Parse(Console.ReadLine());
+/*            Console.WriteLine("Enter FitnessProgram ID:");
+            int id = int.Parse(Console.ReadLine());*/
 
             Console.WriteLine("Enter FitnessProgram Title:");
             string title = Console.ReadLine();
@@ -84,10 +90,11 @@ namespace FitnessProgramManagementSystem
             decimal price = decimal.Parse(Console.ReadLine());*/
             decimal price = manager.ValidateFitnessProgramPrice();
 
-            manager.CreateFitnessProgram(id, title, duration, price);
+            //manager.CreateFitnessProgram(id, title, duration, price);
+            repo.CreateFitnessProgram(title, duration, price);
         }
 
-        static void UpdateFitnessProgram(FitnessProgramManager manager)
+        static void UpdateFitnessProgram(FitnessProgramManager manager, FitnessProgramRepository repo)
         {
             Console.WriteLine("Enter FitnessProgram ID  to update:");
             int id = int.Parse(Console.ReadLine());
@@ -103,15 +110,38 @@ namespace FitnessProgramManagementSystem
             decimal price = manager.ValidateFitnessProgramPrice();
 
 
-            manager.UpdateFitnessProgram(id, title, duration, price);
+            //manager.UpdateFitnessProgram(id, title, duration, price);
+            repo.UpdateFitnessProgram(id, title, duration, price);
         }
 
-        static void DeleteFitnessProgram(FitnessProgramManager manager)
+        static void DeleteFitnessProgram(FitnessProgramManager manager, FitnessProgramRepository repo)
         {
             Console.WriteLine("Enter FitnessProgram ID  to delete:");
             int id = int.Parse(Console.ReadLine());
 
-            manager.DeleteFitnessProgram(id);
+           // manager.DeleteFitnessProgram(id);
+            repo.DeleteFitnessProgram(id);
+        }
+
+        static void ReadFitnessProgramById( FitnessProgramRepository repo)
+        {
+            Console.WriteLine("Enter FitnessProgram ID  to View:");
+            int id = int.Parse(Console.ReadLine());
+
+            // manager.DeleteFitnessProgram(id);
+            var program = repo.ReadFitnessProgramById(id);
+            Console.WriteLine(program.ToString());
+        }
+
+        static void ReadFitnessPrograms(FitnessProgramRepository repo)
+        {
+
+            // manager.DeleteFitnessProgram(id);
+            var programList = repo.ReadFitnessPrograms();
+            foreach ( var program in programList)
+            {
+                Console.WriteLine(program.ToString());
+            }
         }
 
         static void SetConnection()
