@@ -21,6 +21,7 @@ namespace FitnessProgramManagementSystem
             Duration = duration;
             Price = price;
             TotalFitnessPrograms++;
+
         }
 
         public override string ToString()
