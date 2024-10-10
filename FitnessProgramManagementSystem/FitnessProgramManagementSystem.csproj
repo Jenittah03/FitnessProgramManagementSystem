@@ -153,6 +153,7 @@
   <ItemGroup>
     <Compile Include="FitnessProgram.cs" />
     <Compile Include="FitnessProgramManager.cs" />
+    <Compile Include="FitnessProgramRepository.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
