@@ -8,6 +8,7 @@ namespace FitnessProgramManagementSystem
 {
     internal class FitnessProgram
     {
+        public int TotalFitnessPrograms { get; private set; } = 0;
         public int FitnessProgramId { get; set; }
         public string Title { get; set; }
         public string Duration { get; set; }
@@ -19,6 +20,7 @@ namespace FitnessProgramManagementSystem
             Title = title;
             Duration = duration;
             Price = price;
+            TotalFitnessPrograms++;
         }
 
         public override string ToString()
