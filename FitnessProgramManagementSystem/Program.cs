@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -11,10 +12,13 @@ namespace FitnessProgramManagementSystem
     {
         static void Main(string[] args)
         {
+
+
             FitnessProgramManager manager1 = new FitnessProgramManager();
             bool exit = false;
+            SetConnection();
 
-            while (!exit) 
+            while (!exit)
             {
                 Console.Clear();
                 Console.WriteLine("\nFitnessProgram Management System:");
@@ -26,7 +30,8 @@ namespace FitnessProgramManagementSystem
                 Console.Write(" Choose an option:");
                 string option = Console.ReadLine();
 
-                switch(option){
+                switch (option)
+                {
                     case "1":
                         Console.Clear();
                         CreateFitnessProgram(manager1);
@@ -107,6 +112,58 @@ namespace FitnessProgramManagementSystem
             int id = int.Parse(Console.ReadLine());
 
             manager.DeleteFitnessProgram(id);
+        }
+
+        static void SetConnection()
+        {
+            string masterDbConnectionString = "Server=JENITTAH; Database=master; Trusted_Connection=True; TrustServerCertificate=True;";
+            string fitnessDbConnectionString = "Server=JENITTAH; Database=FitnessProgramManagement; Trusted_Connection=True; TrustServerCertificate=True;";
+            string dbQuery = @"
+                    IF NOT EXISTS (SELECT * FROM sys.databases WHERE name='FitnessProgramManagement')
+                    CREATE DATABASE FitnessProgramManagement;
+                    ";
+
+            string tableQuery = @"
+                    IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='FitnessPrograms' AND xtype='U')
+                    CREATE TABLE FitnessPrograms(
+                      FitnessProgramId INT IDENTITY(1,1) PRIMARY KEY,  
+                      Title NVARCHAR(50) NOT NULL,
+                      Duration NVARCHAR(50) NOT NULL,
+                      Price DECIMAL(10,2) NOT NULL
+                    );";
+            string insertQuery = @"
+                    INSERT INTO FitnessPrograms (Title, Duration, Price)
+                    VALUES ('weight Training' ,'6 months', 10);";
+
+            using (SqlConnection connection = new SqlConnection(masterDbConnectionString))
+            {
+                connection.Open();
+                using(SqlCommand command = new SqlCommand(dbQuery, connection))
+                {
+                    command.ExecuteNonQuery();
+                    Console.WriteLine("Database created successfully");
+                }
+            }
+
+            using(SqlConnection conn = new SqlConnection(fitnessDbConnectionString))
+            {
+                conn.Open();
+                using(SqlCommand cmd = new SqlCommand(tableQuery, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                    Console.WriteLine("Table created successfully");
+                }
+
+                using(SqlCommand cmd = new SqlCommand(insertQuery, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                    Console.WriteLine("Sample data insert successfully");
+                }
+
+            }
+            Console.ReadLine();
+
+
         }
     }
 }
