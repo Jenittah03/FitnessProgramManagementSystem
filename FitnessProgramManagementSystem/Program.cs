@@ -75,8 +75,9 @@ namespace FitnessProgramManagementSystem
             Console.WriteLine("Enter FitnessProgram Duration:");
             string duration = Console.ReadLine();
 
-            Console.WriteLine("Enter FitnessProgram Price:");
-            decimal price = decimal.Parse(Console.ReadLine());
+            /*Console.WriteLine("Enter FitnessProgram Price:");
+            decimal price = decimal.Parse(Console.ReadLine());*/
+            decimal price = manager.ValidateFitnessProgramPrice();
 
             manager.CreateFitnessProgram(id, title, duration, price);
         }
@@ -92,8 +93,10 @@ namespace FitnessProgramManagementSystem
             Console.WriteLine("Enter new Duration:");
             string duration = Console.ReadLine();
 
-            Console.WriteLine("Enter new Price:");
-            decimal price = decimal.Parse(Console.ReadLine());
+            /*Console.WriteLine("Enter new Price:");
+            decimal price = decimal.Parse(Console.ReadLine());*/
+            decimal price = manager.ValidateFitnessProgramPrice();
+
 
             manager.UpdateFitnessProgram(id, title, duration, price);
         }

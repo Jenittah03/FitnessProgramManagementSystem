@@ -71,5 +71,19 @@ namespace FitnessProgramManagementSystem
 
         }
 
+        public decimal ValidateFitnessProgramPrice()
+        {
+            decimal price;
+            while (true)
+            {
+                Console.WriteLine("Enter the Program price: ");
+                if(decimal.TryParse(Console.ReadLine(), out price) && price>0)
+                {
+                    return price;
+                }
+                Console.WriteLine("Invalid price!! Please enter correct value");
+            }
+        }
+
     }
 }
