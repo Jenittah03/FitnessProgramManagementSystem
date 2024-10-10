@@ -60,6 +60,9 @@ namespace FitnessProgramManagementSystem
             if (findedProgram != null)
             {
                 FitnessPrograms.Remove(findedProgram);
+                Console.WriteLine("Program deleted successfully");
+
+
             }
             else
             {
