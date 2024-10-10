@@ -15,6 +15,7 @@ namespace FitnessProgramManagementSystem
         {
             try
             {
+                string capitalizeTitle = CapitalizeTitle(title);
                 string insertQuery = @"INSERT INTO FitnessPrograms (Title, Duration, Price)
                                   VALUES(@title, @duration, @price);";
                 using (SqlConnection conn = new SqlConnection(fitnessDbConnectionString))
@@ -22,7 +23,7 @@ namespace FitnessProgramManagementSystem
                     conn.Open();
                     using (SqlCommand cmd = new SqlCommand(insertQuery, conn))
                     {
-                        cmd.Parameters.AddWithValue("@title", title);
+                        cmd.Parameters.AddWithValue("@title", capitalizeTitle);
                         cmd.Parameters.AddWithValue("@duration", duration);
                         cmd.Parameters.AddWithValue("@price", price);
                         cmd.ExecuteNonQuery();
@@ -41,6 +42,7 @@ namespace FitnessProgramManagementSystem
         {
             try
             {
+                string capitalizeTitle = CapitalizeTitle(title);
                 string updateQuery = @"UPDATE FitnessPrograms SET Title=@title, Duration=@duration, Price=@price WHERE FitnessProgramId=@id";
                 using (SqlConnection conn = new SqlConnection(fitnessDbConnectionString))
                 {
@@ -48,7 +50,7 @@ namespace FitnessProgramManagementSystem
                     using (SqlCommand cmd = new SqlCommand(updateQuery, conn))
                     {
                         cmd.Parameters.AddWithValue("@id", id);
-                        cmd.Parameters.AddWithValue("@title", title);
+                        cmd.Parameters.AddWithValue("@title", capitalizeTitle);
                         cmd.Parameters.AddWithValue("@duration", duration);
                         cmd.Parameters.AddWithValue("@price", price);
                         cmd.ExecuteNonQuery();
@@ -156,6 +158,19 @@ namespace FitnessProgramManagementSystem
                 Console.WriteLine("Error: " + ex.Message);
             }
             return programsList;
+        }
+
+        public string CapitalizeTitle(string value)
+        {
+            string[] words = value.Split(' ');
+            for(int i=0; i<words.Length; i++)
+            {
+                if(words[i].Length> 0)
+                {
+                    words[i] = char.ToUpper(words[i][0]) + words[i].Substring(1).ToLower();
+                }
+            }
+            return string.Join(" ", words);
         }
 
 
